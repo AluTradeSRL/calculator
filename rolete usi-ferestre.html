@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Rolete Alutrade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF8C00;
+            --secondary: #E67E00;
+            --accent: #FFA500;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #e0e0e0;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        h1, h2, h3, h4 {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .calculator-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .form-section, .result-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .form-section:hover, .result-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option-group {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .option-group:last-child {
+            border-bottom: none;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: var(--light);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        button {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            width: 100%;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .info-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        .required-field::after {
+            content: " *";
+            color: var(--warning);
+        }
+        
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-option.selected {
+            border-color: var(--dark);
+            transform: scale(1.1);
+        }
+        
+        #rezultat {
+            display: none;
+        }
+        
+        .result-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .price-highlight {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: rgba(255, 140, 0, 0.1);
+            border-radius: var(--border-radius);
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-container {
+                flex-direction: column;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-section {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+            cursor: help;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .plasa-rulou-dimensiuni {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+
+        .avarie-checkbox {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff8e1;
+            border-radius: var(--border-radius);
+        }
+
+        .actionare-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .actionare-option-card {
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 10px;
+            transition: var(--transition);
+            border: 1px solid #e0e0e0;
+        }
+
+        .actionare-option-card:hover {
+            border-color: var(--accent);
+        }
+
+        .actionare-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .actionare-icon {
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .motor-options {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .motor-select {
+            width: 100%;
+            padding: 6px 8px;
+            font-size: 13px;
+        }
+
+        .ral-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .ral-input {
+            width: 80px;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        .component-breakdown {
+            margin-top: 20px;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        .component-breakdown h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .component-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px dotted #ddd;
+        }
+        
+        .component-item:last-child {
+            border-bottom: none;
+        }
+        
+        .component-name {
+            font-weight: 500;
+        }
+        
+        .component-price {
+            font-weight: 700;
+        }
+        
+        .component-total {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid var(--primary);
+            font-weight: 700;
+        }
+
+        .profit-margin {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px dashed var(--primary);
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .parte-roleta {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+
+        .parte-roleta h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .special-box-price {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff8e1;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        .password-prompt {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .password-input {
+            margin: 10px 0;
+            padding: 8px 12px;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+
+        .password-button {
+            padding: 8px 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+        }
+
+        .password-button:hover {
+            background-color: var(--secondary);
+        }
+
+        /* Tabel pentru rezultate */
+        .config-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .config-table th, .config-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .config-table th {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+        
+        .config-table .label {
+            font-weight: 500;
+            width: 40%;
+        }
+        
+        .config-table .value {
+            font-weight: 400;
+        }
+
+        .error-message {
+            color: var(--warning);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .actionare-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .config-table {
+                font-size: 14px;
+            }
+            
+            .config-table th, .config-table td {
+                padding: 8px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculator Rolete Alutrade</h1>
+            <p>Calculează prețul roletelor tale personalizate</p>
+        </header>
+        
+        <div class="calculator-container">
+            <div class="form-section">
+                <div class="option-group">
+                    <h3><i class="fas fa-ruler-combined"></i> Dimensiuni</h3>
+                    <label for="latime" class="required-field">Lățime roletă (mm)</label>
+                    <input type="number" id="latime" min="500" max="3000" required oninput="updateLatimeLamaOptions()">
+                    <div class="error-message" id="latime-error">Introduceți o lățime validă (500-3000 mm)</div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="adaugaGhidaje" onchange="updateLatime()">
+                        <label for="adaugaGhidaje">Adaugă ghidaje la lățime</label>
+                        <div class="tooltip">?
+                            <span class="tooltiptext">Ghidajele se adaugă la lățimea totală a roletei</span>
+                        </div>
+                    </div>
+                    <small id="ghidajeAdaugateText" class="info-text" style="display:none;">Se va adăuga <span id="marimeGhidajText">0</span> mm la lățime</small>
+
+                    <label for="inaltime" class="required-field">Înălțime roletă (mm)</label>
+                    <input type="number" id="inaltime" min="500" max="3000" required>
+                    <div class="error-message" id="inaltime-error">Introduceți o înălțime validă (500-3000 mm)</div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="adaugaCutia" onchange="updateInaltime()">
+                        <label for="adaugaCutia">Adaugă cutia la înălțime</label>
+                        <div class="tooltip">?
+                            <span class="tooltiptext">Cutia se adaugă la înălțimea totală a roletei</span>
+                        </div>
+                    </div>
+                    <small id="cutieAdaugataText" class="info-text" style="display:none;">Se va adăuga <span id="marimeCutieText">0</span> mm la înălțime</small>
+                </div>
+
+                <div class="option-group">
+                    <h3><i class="fas fa-palette"></i> Culoare</h3>
+                    
+                    <div class="parte-roleta">
+                        <h4>Cutie</h4>
+                        <div class="color-options" id="cutie-colors">
+                            <div class="color-option selected" style="background-color: #ffffff;" title="Alb" onclick="selectColor('cutie', 'alb', this)"></div>
+                            <div class="color-option" style="background-color: #A67B5B;" title="Maro deschis (8014)" onclick="selectColor('cutie', 'maro_8014', this)"></div>
+                            <div class="color-option" style="background-color: #5D4037;" title="Maro închis (8019)" onclick="selectColor('cutie', 'maro_8019', this)"></div>
+                            <div class="color-option" style="background-color: #383838;" title="Antracit" onclick="selectColor('cutie', 'antracit', this)"></div>
+                            <div class="color-option" style="background-color: #C0C0C0;" title="Silver" onclick="selectColor('cutie', 'silver', this)"></div>
+                            <div class="color-option" style="background-color: #DAA520;" title="Stejar auriu" onclick="selectColor('cutie', 'stejar_auriu', this)"></div>
+                            <div class="color-option" style="background-color: #8B4513;" title="Nuc" onclick="selectColor('cutie', 'nuc', this)"></div>
+                            <div class="color-option" style="background-color: #654321;" title="Wenge" onclick="selectColor('cutie', 'wenge', this)"></div>
+                            <div class="color-option" style="background-color: #f0f0f0; border: 1px dashed #ccc;" title="RAL" onclick="selectColor('cutie', 'ral', this)"></div>
+                        </div>
+                        <div class="ral-option hidden" id="cutie-ralInputContainer">
+                            <label for="cutie-ralCode">Cod RAL:</label>
+                            <input type="text" id="cutie-ralCode" class="ral-input" placeholder="e.g. 9010" maxlength="5" pattern="\d{4,5}">
+                        </div>
+                        <input type="hidden" id="culoare-cutie" value="alb" required>
+                    </div>
+                    
+                    <div class="parte-roleta">
+                        <h4>Ghidaje</h4>
+                        <div class="color-options" id="ghidaje-colors">
+                            <div class="color-option selected" style="background-color: #ffffff;" title="Alb" onclick="selectColor('ghidaje', 'alb', this)"></div>
+                            <div class="color-option" style="background-color: #A67B5B;" title="Maro deschis (8014)" onclick="selectColor('ghidaje', 'maro_8014', this)"></div>
+                            <div class="color-option" style="background-color: #5D4037;" title="Maro închis (8019)" onclick="selectColor('ghidaje', 'maro_8019', this)"></div>
+                            <div class="color-option" style="background-color: #383838;" title="Antracit" onclick="selectColor('ghidaje', 'antracit', this)"></div>
+                            <div class="color-option" style="background-color: #C0C0C0;" title="Silver" onclick="selectColor('ghidaje', 'silver', this)"></div>
+                            <div class="color-option" style="background-color: #DAA520;" title="Stejar auriu" onclick="selectColor('ghidaje', 'stejar_auriu', this)"></div>
+                            <div class="color-option" style="background-color: #8B4513;" title="Nuc" onclick="selectColor('ghidaje', 'nuc', this)"></div>
+                            <div class="color-option" style="background-color: #654321;" title="Wenge" onclick="selectColor('ghidaje', 'wenge', this)"></div>
+                            <div class="color-option" style="background-color: #f0f0f0; border: 1px dashed #ccc;" title="RAL" onclick="selectColor('ghidaje', 'ral', this)"></div>
+                        </div>
+                        <div class="ral-option hidden" id="ghidaje-ralInputContainer">
+                            <label for="ghidaje-ralCode">Cod RAL:</label>
+                            <input type="text" id="ghidaje-ralCode" class="ral-input" placeholder="e.g. 9010" maxlength="5" pattern="\d{4,5}">
+                        </div>
+                        <input type="hidden" id="culoare-ghidaje" value="alb" required>
+                    </div>
+                    
+                    <div class="parte-roleta">
+                        <h4>Lamele</h4>
+                        <div class="color-options" id="lamele-colors">
+                            <div class="color-option selected" style="background-color: #ffffff;" title="Alb" onclick="selectColor('lamele', 'alb', this)"></div>
+                            <div class="color-option" style="background-color: #A67B5B;" title="Maro deschis (8014)" onclick="selectColor('lamele', 'maro_8014', this)"></div>
+                            <div class="color-option" style="background-color: #5D4037;" title="Maro închis (8019)" onclick="selectColor('lamele', 'maro_8019', this)"></div>
+                            <div class="color-option" style="background-color: #383838;" title="Antracit" onclick="selectColor('lamele', 'antracit', this)"></div>
+                            <div class="color-option" style="background-color: #C0C0C0;" title="Silver" onclick="selectColor('lamele', 'silver', this)"></div>
+                            <div class="color-option" style="background-color: #DAA520;" title="Stejar auriu" onclick="selectColor('lamele', 'stejar_auriu', this)"></div>
+                            <div class="color-option" style="background-color: #8B4513;" title="Nuc" onclick="selectColor('lamele', 'nuc', this)"></div>
+                            <div class="color-option" style="background-color: #654321;" title="Wenge" onclick="selectColor('lamele', 'wenge', this)"></div>
+                            <div class="color-option" style="background-color: #f0f0f0; border: 1px dashed #ccc;" title="RAL" onclick="selectColor('lamele', 'ral', this)"></div>
+                        </div>
+                        <div class="ral-option hidden" id="lamele-ralInputContainer">
+                            <label for="lamele-ralCode">Cod RAL:</label>
+                            <input type="text" id="lamele-ralCode" class="ral-input" placeholder="e.g. 9010" maxlength="5" pattern="\d{4,5}">
+                        </div>
+                        <input type="hidden" id="culoare-lamele" value="alb" required>
+                    </div>
+                </div>
+
+                <div class="option-group" id="configuratie-group">
+                    <h3><i class="fas fa-cog"></i> Configurație</h3>
+                    
+                    <div class="checkbox-group" id="plasa-rulou-container">
+                        <input type="checkbox" id="plasaRulou" onchange="togglePlasaRulou()">
+                        <label for="plasaRulou">Plasa rulou</label>
+                    </div>
+                    
+                    <div id="plasaRulouDimensiuni" class="plasa-rulou-dimensiuni hidden">
+                        <label for="plasaLatime" class="required-field">Lățime plasa rulou (mm)</label>
+                        <input type="number" id="plasaLatime" min="500" max="3000">
+                        
+                        <label for="plasaInaltime" class="required-field">Înălțime plasa rulou (mm)</label>
+                        <input type="number" id="plasaInaltime" min="500" max="3000">
+                    </div>
+
+                    <div id="tip-roleta-container">
+                        <label for="tipRoleta" class="required-field">Tipul roletei</label>
+                        <select id="tipRoleta" required onchange="updateCutiiOptions()">
+                            <option value="">-- Selectați --</option>
+                            <option value="aplicat_simplu">Aplicat simplu</option>
+                            <option value="aplicat_tencuibil">Aplicat tencuibil</option>
+                            <option value="suprapus">Suprapus</option>
+                        </select>
+                        <div class="error-message" id="tipRoleta-error">Selectați un tip de roletă</div>
+                    </div>
+
+                    <label for="marimeCutie" class="required-field">Mărimea cutiei (mm)</label>
+                    <select id="marimeCutie" required onchange="updateCutieAdaugata()">
+                        <option value="">-- Selectați tipul de roletă mai întâi --</option>
+                    </select>
+                    <div class="error-message" id="marimeCutie-error">Selectați mărimea cutiei</div>
+
+                    <div id="avarieContainer" class="avarie-checkbox">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="avarie" onchange="updateMotorOptions()">
+                            <label for="avarie">Avarie</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="option-group">
+                    <label for="latimeLama" class="required-field">Lățimea lamelei</label>
+                    <select id="latimeLama" required onchange="updateGhidaje()">
+                        <option value="">-- Selectați --</option>
+                        <option value="39">39 mm</option>
+                        <option value="43">43 mm</option>
+                    </select>
+                    <div class="error-message" id="latimeLama-error">Selectați lățimea lamelei</div>
+                </div>
+
+                <div class="option-group">
+                    <h3><i class="fas fa-cogs"></i> Acționare</h3>
+                    
+                    <div class="actionare-options">
+                        <div class="actionare-option-card">
+                            <input type="radio" id="actionare-motor" name="actionare" value="motor" onchange="toggleMotorOptions()">
+                            <label for="actionare-motor" class="actionare-label">
+                                <i class="fas fa-bolt actionare-icon"></i>
+                                <span>Motor</span>
+                            </label>
+                            
+                            <div id="motorOptions" class="motor-options hidden">
+                                <select id="tipMotor" class="motor-select">
+                                    <option value="0">Selectați motor</option>
+                                    <option value="55">Cu întrerupător (fir)</option>
+                                    <option value="90">Cu întrerupător (wireless)</option>
+                                    <option value="80">Cu telecomandă</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="actionare-option-card" id="arc-option">
+                            <input type="radio" id="actionare-arc" name="actionare" value="arc" onchange="toggleMotorOptions()">
+                            <label for="actionare-arc" class="actionare-label">
+                                <i class="fas fa-archway actionare-icon"></i>
+                                <span>Arc</span>
+                            </label>
+                        </div>
+
+                        <div class="actionare-option-card" id="mecanic-option">
+                            <input type="radio" id="actionare-mecanic" name="actionare" value="mecanic" onchange="toggleMotorOptions()">
+                            <label for="actionare-mecanic" class="actionare-label">
+                                <i class="fas fa-cog actionare-icon"></i>
+                                <span>Mecanic</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="error-message" id="actionare-error">Selectați un tip de acționare</div>
+                </div>
+
+                <button type="button" id="calculeaza-button" onclick="calculeazaPret()">
+                    <i class="fas fa-calculator"></i> Calculează Preț
+                </button>
+            </div>
+
+            <div class="result-section" id="rezultat">
+                <h2><i class="fas fa-file-invoice-dollar"></i> Detalii Comandă</h2>
+                
+                <div class="result-item">
+                    <h4>Configurație roletă</h4>
+                    <p><strong>Tip:</strong> <span id="tipAfisare"></span></p>
+                    
+                    <table class="config-table">
+                        <tr>
+                            <th colspan="2">Dimensiuni finale</th>
+                        </tr>
+                        <tr>
+                            <td class="label">Lățime:</td>
+                            <td class="value"><span id="latimeFinala"></span> mm</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Înălțime:</td>
+                            <td class="value"><span id="inaltimeFinala"></span> mm</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Mărime cutie:</td>
+                            <td class="value"><span id="cutieAfisare"></span> mm</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Lățime lamelă:</td>
+                            <td class="value"><span id="lamaAfisare"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Număr lamele:</td>
+                            <td class="value"><span id="numarLameleValue"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Culoare cutie:</td>
+                            <td class="value"><span id="culoareCutieAfisare"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Culoare ghidaje:</td>
+                            <td class="value"><span id="culoareGhidajeAfisare"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Culoare lamele:</td>
+                            <td class="value"><span id="culoareLameleAfisare"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Acționare:</td>
+                            <td class="value"><span id="actionareAfisare"></span></td>
+                        </tr>
+                    </table>
+                    
+                    <p id="avarieAfisare" class="hidden"><strong>Avarie:</strong> Da</p>
+                </div>
+                
+                <div id="plasaRulouAfisare" class="hidden">
+                    <h4>Plasa rulou</h4>
+                    <table class="config-table">
+                        <tr>
+                            <td class="label">Dimensiuni:</td>
+                            <td class="value"><span id="plasaDimensiuniAfisare"></span> mm</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Suprafață:</td>
+                            <td class="value"><span id="plasaSuprafataAfisare"></span> m²</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div id="specialBoxPriceContainer" class="special-box-price hidden">
+                    <h4><i class="fas fa-box-open"></i> Pret Special Cutie</h4>
+                    <div id="specialBoxPriceDetails"></div>
+                </div>
+                
+                <div id="componenteAplicatSimplu" class="component-breakdown">
+                    <h4><i class="fas fa-calculator"></i> Detalii Pret</h4>
+                    <div id="componenteList"></div>
+                </div>
+                
+                <div id="componentePlasaRulou" class="component-breakdown hidden">
+                    <h4><i class="fas fa-bug"></i> Detalii Pret Plasa Rulou</h4>
+                    <div id="componentePlasaList"></div>
+                </div>
+                
+                <div class="price-highlight">
+                    Preț total: <span id="pretTotal"></span> EUR
+                </div>
+                
+                <button type="button" onclick="window.print()" style="background: var(--accent);">
+                    <i class="fas fa-print"></i> Printează oferta
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Preturi pe m2 pentru fiecare tip de roleta (in euro)
+        const PRETURI = {
+            aplicat_simplu: 35,
+            aplicat_tencuibil: 45,
+            suprapus: 50
+        };
+
+        // Preturi per linear meter based on slat width
+        const PRETURI_LAMELE = {
+            "39": 0.75,
+            "43": 1.22
+        };
+
+        // Preturi speciale pentru culorile de lemn
+        const PRETURI_LEMN = {
+            "stejar_auriu": {
+                "39": 1.10,
+                "43": 1.20,
+                "lama_finala": 4.60,
+                "capac_spate": 9.00,
+                "capac_lateral": 10.00,
+                "ghidaj": 8.50
+            },
+            "nuc": {
+                "39": 1.10,
+                "43": 1.20,
+                "lama_finala": 4.60,
+                "capac_spate": 9.00,
+                "capac_lateral": 10.00,
+                "ghidaj": 8.50
+            },
+            "wenge": {
+                "39": 1.10,
+                "43": 1.20,
+                "lama_finala": 4.60,
+                "capac_spate": 9.00,
+                "capac_lateral": 10.00,
+                "ghidaj": 8.50
+            }
+        };
+
+        // Preturi componente suplimentare
+        const PRETURI_COMPONENTE = {
+            // Componente pentru cutie
+            cutie: {
+                capac_fata: 6.70,
+                capac_spate: 8.83,
+                ax: 2.00,
+                set: 0.20,
+                capac_lateral: 6.50,
+                fulie: 1.28,
+                octagon_rulment: 0.40,
+                rulment: 0.50,
+                inel: 1.60,
+                pilnie: 0.30,
+                tabachera: 3.00,
+                rola_standarta: 0.40,
+                arc_standart: 0.25,
+                surub_caseta: 0.56,
+                pn_4: 0.70
+            },
+            // Componente pentru ghidaje
+            ghidaje: {
+                ghidaj: 3.25,
+                perisor_ghidaj: 0.15,
+                dop_mascare: 0.32,
+                dop_10: 0.30
+            },
+            // Componente pentru lamele
+            lamele: {
+                lama_finala: 2.00,
+                garnitura_lama: 0.25,
+                cleme: 1.40,
+                opritori: 0.30,
+                sigurante: 0.07,
+                capse: 0.02
+            },
+            // Componente pentru plasa rulou
+            plasa_rulou: {
+                plasa: 45, // per m²
+                sistem_antrenare: 25,
+                ghidaje: 15,
+                capete_ghidaje: 5,
+                suport_motor: 10
+            }
+        };
+
+        // Preturi suplimentare pentru cutii speciale
+        const PRETURI_CUTII_SPECIALE = {
+            aplicat_tencuibil: {
+                alb: 55,
+                maro_8014: 55,
+                maro_8019: 55,
+                antracit: 60
+            },
+            suprapus: {
+                alb: 55,
+                maro_8014: 55,
+                antracit: 60,
+                stejar_auriu: 75,
+                nuc: 75
+            }
+        };
+
+        // Supliment pentru culoare RAL
+        const SUPLIMENT_RAL = 50; // EUR per m²
+
+        // Optiuni cutie pentru fiecare tip
+        const CUTII = {
+            aplicat_simplu: [137, 150, 165, 180, 205],
+            aplicat_tencuibil: [137, 150, 165, 180, 205],
+            suprapus: [170, 210, 240],
+            plasa_rulou_aplicat_simplu: [150, 165, 180, 205],
+            plasa_rulou_aplicat_tencuibil: [150, 165, 180, 205],
+            plasa_rulou_suprapus: [170, 210, 240]
+        };
+
+        // Denumiri culori
+        const DENUMIRI_CULORI = {
+            "alb": "Alb",
+            "maro_8014": "Maro deschis (8014)",
+            "maro_8019": "Maro închis (8019)",
+            "antracit": "Antracit",
+            "silver": "Silver",
+            "stejar_auriu": "Stejar auriu",
+            "nuc": "Nuc",
+            "wenge": "Wenge",
+            "ral": "RAL"
+        };
+
+        const DENUMIRI_MOTOARE = {
+            "0": "",
+            "55": "Cu întrerupător (fir)",
+            "90": "Cu întrerupător (wireless)",
+            "80": "Cu telecomandă"
+        };
+
+        const DENUMIRI_ACTIONARE = {
+            "motor": "Motorizare",
+            "arc": "Arc",
+            "mecanic": "Sistem mecanic"
+        };
+
+        // Function to round up to nearest 5
+        function roundUpToNearest5(num) {
+            return Math.ceil(num / 5) * 5;
+        }
+
+        // Function to get component price based on color and slat width
+        function getComponentPrice(component, culoare, latimeLama, marimeCutie) {
+            const isLemn = ['stejar_auriu', 'nuc', 'wenge'].includes(culoare);
+            
+            if (isLemn && PRETURI_LEMN[culoare][component]) {
+                return PRETURI_LEMN[culoare][component];
+            }
+            
+            if (isLemn && component === "lamele" && PRETURI_LEMN[culoare][latimeLama]) {
+                return PRETURI_LEMN[culoare][latimeLama];
+            }
+            
+            // Find which part the component belongs to
+            if (PRETURI_COMPONENTE.cutie[component]) {
+                return PRETURI_COMPONENTE.cutie[component];
+            } else if (PRETURI_COMPONENTE.ghidaje[component]) {
+                return PRETURI_COMPONENTE.ghidaje[component];
+            } else if (PRETURI_COMPONENTE.lamele[component]) {
+                return PRETURI_COMPONENTE.lamele[component];
+            } else if (PRETURI_COMPONENTE.plasa_rulou[component]) {
+                return PRETURI_COMPONENTE.plasa_rulou[component];
+            }
+            
+            return 0;
+        }
+
+        // Get ghidaj size based on slat width and box size
+        function getDimensiuneGhidaj(latimeLama, marimeCutie) {
+            // Default rules
+            const GHIDAJE_DEFAULT = {
+                "39": 110,
+                "43": 110
+            };
+            return GHIDAJE_DEFAULT[latimeLama] || 0;
+        }
+
+        // Select color for specific part
+        function selectColor(part, culoare, element) {
+            document.getElementById(`culoare-${part}`).value = culoare;
+            document.querySelectorAll(`#${part}-colors .color-option`).forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            
+            // Show/hide RAL input
+            const ralInputContainer = document.getElementById(`${part}-ralInputContainer`);
+            if (culoare === 'ral') {
+                ralInputContainer.classList.remove('hidden');
+            } else {
+                ralInputContainer.classList.add('hidden');
+            }
+            
+            // Update box sizes when color changes
+            if (part === 'cutie') {
+                updateCutiiOptions();
+            }
+        }
+
+        // Toggle motor options when motor is selected
+        function toggleMotorOptions() {
+            const motorSelected = document.getElementById('actionare-motor').checked;
+            const motorOptions = document.getElementById('motorOptions');
+            
+            if (motorSelected) {
+                motorOptions.classList.remove('hidden');
+            } else {
+                motorOptions.classList.add('hidden');
+            }
+        }
+
+        // Toggle plasa rulou options
+        function togglePlasaRulou() {
+            const plasaRulou = document.getElementById('plasaRulou').checked;
+            const plasaRulouDimensiuni = document.getElementById('plasaRulouDimensiuni');
+            
+            if (plasaRulou) {
+                plasaRulouDimensiuni.classList.remove('hidden');
+            } else {
+                plasaRulouDimensiuni.classList.add('hidden');
+            }
+            
+            updateCutiiOptions();
+        }
+
+        // Actualizeaza optiunile pentru latimea lamelei in functie de latimea roletei
+        function updateLatimeLamaOptions() {
+            const latimeInput = document.getElementById('latime');
+            const latimeLamaSelect = document.getElementById('latimeLama');
+            const latime = parseFloat(latimeInput.value) || 0;
+            
+            // Reset to all options
+            Array.from(latimeLamaSelect.options).forEach(option => {
+                option.style.display = '';
+            });
+            
+            // If width > 2600mm, hide 39mm option
+            if (latime > 2600) {
+                Array.from(latimeLamaSelect.options).forEach(option => {
+                    if (option.value === "39") {
+                        option.style.display = 'none';
+                        // If 39mm was selected, reset to default
+                        if (latimeLamaSelect.value === "39") {
+                            latimeLamaSelect.value = "";
+                        }
+                    }
+                });
+            }
+        }
+
+        // Actualizeaza optiunile pentru cutie cand se schimba tipul de roleta sau culoarea
+        function updateCutiiOptions() {
+            const tipRoleta = document.getElementById('tipRoleta').value;
+            const culoareCutie = document.getElementById('culoare-cutie').value;
+            const cutieSelect = document.getElementById('marimeCutie');
+            const plasaRulou = document.getElementById('plasaRulou').checked;
+            
+            // Reseteaza optiunile
+            cutieSelect.innerHTML = '';
+            
+            // Adauga optiunea default
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '-- Selectați mărimea cutiei --';
+            cutieSelect.appendChild(defaultOption);
+            
+            let dimensiuniCutii;
+            
+            // Logica pentru disponibilitatea tipurilor de rolete in functie de culoare
+            if (['alb', 'maro_8014', 'maro_8019', 'antracit', 'ral'].includes(culoareCutie)) {
+                // Toate tipurile de rolete sunt disponibile
+                if (plasaRulou) {
+                    // Special sizes for plasa rulou
+                    if (tipRoleta === 'aplicat_simplu') {
+                        dimensiuniCutii = CUTII['plasa_rulou_aplicat_simplu'];
+                    } else if (tipRoleta === 'aplicat_tencuibil') {
+                        dimensiuniCutii = CUTII['plasa_rulou_aplicat_tencuibil'];
+                    } else if (tipRoleta === 'suprapus') {
+                        dimensiuniCutii = CUTII['plasa_rulou_suprapus'];
+                    }
+                } else {
+                    // Standard sizes
+                    if (tipRoleta === 'aplicat_simplu') {
+                        dimensiuniCutii = CUTII.aplicat_simplu;
+                    } else if (tipRoleta === 'aplicat_tencuibil') {
+                        dimensiuniCutii = CUTII.aplicat_tencuibil;
+                    } else if (tipRoleta === 'suprapus') {
+                        dimensiuniCutii = CUTII.suprapus;
+                    }
+                }
+            } else if (culoareCutie === 'silver') {
+                // Doar aplicat simplu
+                if (tipRoleta === 'aplicat_simplu') {
+                    if (plasaRulou) {
+                        dimensiuniCutii = CUTII['plasa_rulou_aplicat_simplu'];
+                    } else {
+                        dimensiuniCutii = CUTII.aplicat_simplu;
+                    }
+                } else {
+                    dimensiuniCutii = [];
+                }
+            } else if (culoareCutie === 'stejar_auriu') {
+                // Aplicat simplu si suprapus
+                if (tipRoleta === 'aplicat_simplu') {
+                    if (plasaRulou) {
+                        dimensiuniCutii = [150, 165, 180, 205].filter(size => [137, 165, 205].includes(size));
+                    } else {
+                        dimensiuniCutii = [137, 165, 205];
+                    }
+                } else if (tipRoleta === 'suprapus') {
+                    if (plasaRulou) {
+                        dimensiuniCutii = CUTII['plasa_rulou_suprapus'];
+                    } else {
+                        dimensiuniCutii = CUTII.suprapus;
+                    }
+                } else {
+                    dimensiuniCutii = [];
+                }
+            } else if (['nuc', 'wenge'].includes(culoareCutie)) {
+                // Doar aplicat simplu cu marimile specifice
+                if (tipRoleta === 'aplicat_simplu') {
+                    if (plasaRulou) {
+                        dimensiuniCutii = [150, 165, 180, 205].filter(size => [137, 165, 205].includes(size));
+                    } else {
+                        dimensiuniCutii = [137, 165, 205];
+                    }
+                } else {
+                    dimensiuniCutii = [];
+                }
+            }
+            
+            // Adauga optiunile specifice
+            if (dimensiuniCutii) {
+                dimensiuniCutii.forEach(size => {
+                    const option = document.createElement('option');
+                    option.value = size;
+                    option.textContent = size + ' mm';
+                    cutieSelect.appendChild(option);
+                });
+            }
+            
+            // If no options available, show message
+            if (!dimensiuniCutii || dimensiuniCutii.length === 0) {
+                cutieSelect.innerHTML = '';
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = '-- Nu sunt disponibile cutii pentru această combinație --';
+                cutieSelect.appendChild(option);
+            }
+            
+            // Actualizeaza ghidajele daca e cazul
+            updateGhidaje();
+        }
+
+        // Actualizeaza textul pentru ghidaje
+        function updateGhidaje() {
+            const latimeLama = document.getElementById('latimeLama').value;
+            const marimeCutie = document.getElementById('marimeCutie').value;
+            const adaugaGhidaje = document.getElementById('adaugaGhidaje').checked;
+            
+            if (latimeLama && marimeCutie) {
+                const dimensiuneGhidaj = getDimensiuneGhidaj(latimeLama, marimeCutie);
+                document.getElementById('marimeGhidajText').textContent = dimensiuneGhidaj;
+                document.getElementById('ghidajeAdaugateText').style.display = 'block';
+                if (adaugaGhidaje) {
+                    updateLatime();
+                }
+            } else {
+                document.getElementById('ghidajeAdaugateText').style.display = 'none';
+                if (adaugaGhidaje) {
+                    updateLatime();
+                }
+            }
+        }
+
+        // Actualizeaza latimea in functie de ghidaje
+        function updateLatime() {
+            const latimeInput = document.getElementById('latime');
+            const originalLatime = parseFloat(latimeInput.dataset.original) || parseFloat(latimeInput.value) || 0;
+            const adaugaGhidaje = document.getElementById('adaugaGhidaje').checked;
+            const latimeLama = document.getElementById('latimeLama').value;
+            const marimeCutie = document.getElementById('marimeCutie').value;
+            
+            // Salveaza valoarea originala daca nu exista
+            if (!latimeInput.dataset.original) {
+                latimeInput.dataset.original = originalLatime;
+            }
+            
+            if (adaugaGhidaje && latimeLama && marimeCutie) {
+                const dimensiuneGhidaj = getDimensiuneGhidaj(latimeLama, marimeCutie);
+                latimeInput.value = originalLatime + dimensiuneGhidaj;
+            } else {
+                latimeInput.value = originalLatime;
+            }
+        }
+
+        // Actualizeaza textul care arata cat se va adauga la inaltime
+        function updateCutieAdaugata() {
+            const marimeCutie = document.getElementById('marimeCutie').value;
+            const adaugaCutia = document.getElementById('adaugaCutia').checked;
+            
+            if (marimeCutie) {
+                if (adaugaCutia) {
+                    document.getElementById('marimeCutieText').textContent = marimeCutie;
+                    document.getElementById('cutieAdaugataText').style.display = 'block';
+                    updateInaltime();
+                } else {
+                    document.getElementById('cutieAdaugataText').style.display = 'none';
+                    updateInaltime();
+                }
+            } else {
+                document.getElementById('cutieAdaugataText').style.display = 'none';
+                updateInaltime();
+            }
+            
+            // Actualizeaza si ghidajele daca e cazul
+            updateGhidaje();
+        }
+
+        // Actualizeaza inaltimea in functie de bifa "adauga cutia"
+        function updateInaltime() {
+            const inaltimeInput = document.getElementById('inaltime');
+            const originalInaltime = parseFloat(inaltimeInput.dataset.original) || parseFloat(inaltimeInput.value) || 0;
+            const adaugaCutia = document.getElementById('adaugaCutia').checked;
+            const marimeCutie = document.getElementById('marimeCutie').value;
+            
+            // Salveaza valoarea originala daca nu exista
+            if (!inaltimeInput.dataset.original) {
+                inaltimeInput.dataset.original = originalInaltime;
+            }
+            
+            if (adaugaCutia && marimeCutie) {
+                inaltimeInput.value = originalInaltime + parseInt(marimeCutie);
+            } else {
+                inaltimeInput.value = originalInaltime;
+            }
+        }
+
+        // Funcția principală de calcul preț
+        function calculeazaPret() {
+            // Ascunde toate mesajele de eroare
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Validează câmpurile obligatorii
+            let isValid = true;
+            
+            const latime = parseFloat(document.getElementById('latime').dataset.original) || parseFloat(document.getElementById('latime').value) || 0;
+            if (isNaN(latime) || latime < 500 || latime > 3000) {
+                document.getElementById('latime-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            const inaltime = parseFloat(document.getElementById('inaltime').dataset.original) || parseFloat(document.getElementById('inaltime').value) || 0;
+            if (isNaN(inaltime) || inaltime < 500 || inaltime > 3000) {
+                document.getElementById('inaltime-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            const tipRoleta = document.getElementById('tipRoleta').value;
+            if (!tipRoleta) {
+                document.getElementById('tipRoleta-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            const marimeCutie = document.getElementById('marimeCutie').value;
+            if (!marimeCutie) {
+                document.getElementById('marimeCutie-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            const latimeLama = document.getElementById('latimeLama').value;
+            if (!latimeLama) {
+                document.getElementById('latimeLama-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            const actionareType = document.querySelector('input[name="actionare"]:checked');
+            if (!actionareType) {
+                document.getElementById('actionare-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                alert('Completați toate câmpurile obligatorii corect!');
+                return;
+            }
+            
+            // Obține toate valorile din formular
+            const culoareCutie = document.getElementById('culoare-cutie').value;
+            const culoareGhidaje = document.getElementById('culoare-ghidaje').value;
+            const culoareLamele = document.getElementById('culoare-lamele').value;
+            const actionareValue = actionareType.value;
+            const tipMotor = actionareValue === 'motor' ? document.getElementById('tipMotor').value : "0";
+            const adaugaCutia = document.getElementById('adaugaCutia').checked;
+            const adaugaGhidaje = document.getElementById('adaugaGhidaje').checked;
+            const plasaRulou = document.getElementById('plasaRulou').checked;
+            const plasaLatime = parseFloat(document.getElementById('plasaLatime').value) || 0;
+            const plasaInaltime = parseFloat(document.getElementById('plasaInaltime').value) || 0;
+            const avarie = document.getElementById('avarie').checked;
+            
+            // Calcule dimensiuni finale
+            let latimeFinala = latime;
+            let inaltimeFinala = inaltime;
+            
+            if (adaugaGhidaje && latimeLama && marimeCutie) {
+                const dimensiuneGhidaj = getDimensiuneGhidaj(latimeLama, marimeCutie);
+                latimeFinala += dimensiuneGhidaj;
+            }
+            
+            if (adaugaCutia && marimeCutie) {
+                inaltimeFinala += parseInt(marimeCutie);
+            }
+            
+            // Calculează numărul de lamele
+            const numarLamele = Math.ceil(inaltimeFinala / parseInt(latimeLama));
+            
+            // Calculează metri liniari
+            const metriLiniari = numarLamele * (latimeFinala / 1000);
+            const latimeML = latimeFinala / 1000;
+            const inaltimeML = inaltimeFinala / 1000;
+            
+            // Calculează prețurile componentelor
+            const pretLamele = ['stejar_auriu', 'nuc', 'wenge'].includes(culoareLamele) ? 
+                PRETURI_LEMN[culoareLamele][latimeLama] : PRETURI_LAMELE[latimeLama];
+            
+            // 1. Componente cutie
+            const capacFata = latimeML * getComponentPrice('capac_fata', culoareCutie, latimeLama, marimeCutie);
+            const capacSpate = latimeML * getComponentPrice('capac_spate', culoareCutie, latimeLama, marimeCutie);
+            const ax = latimeML * getComponentPrice('ax', culoareCutie, latimeLama, marimeCutie);
+            const set = getComponentPrice('set', culoareCutie, latimeLama, marimeCutie);
+            const capacLateral = getComponentPrice('capac_lateral', culoareCutie, latimeLama, marimeCutie);
+            const fulie = getComponentPrice('fulie', culoareCutie, latimeLama, marimeCutie);
+            const octagonRulment = getComponentPrice('octagon_rulment', culoareCutie, latimeLama, marimeCutie);
+            const rulment = getComponentPrice('rulment', culoareCutie, latimeLama, marimeCutie);
+            const inel = getComponentPrice('inel', culoareCutie, latimeLama, marimeCutie);
+            const pilnie = getComponentPrice('pilnie', culoareCutie, latimeLama, marimeCutie);
+            const tabachera = getComponentPrice('tabachera', culoareCutie, latimeLama, marimeCutie);
+            const rolaStandart = getComponentPrice('rola_standarta', culoareCutie, latimeLama, marimeCutie);
+            const arcStandart = getComponentPrice('arc_standart', culoareCutie, latimeLama, marimeCutie);
+            const surubCaseta = getComponentPrice('surub_caseta', culoareCutie, latimeLama, marimeCutie);
+            const pn4 = getComponentPrice('pn_4', culoareCutie, latimeLama, marimeCutie);
+            
+            // 2. Componente ghidaje
+            const ghidaj = (inaltimeML * 2) * getComponentPrice('ghidaj', culoareGhidaje, latimeLama, marimeCutie);
+            const perisorGhidaj = (inaltimeML * 4) * getComponentPrice('perisor_ghidaj', culoareGhidaje, latimeLama, marimeCutie);
+            const dopMascare = getComponentPrice('dop_mascare', culoareGhidaje, latimeLama, marimeCutie);
+            const dop10 = getComponentPrice('dop_10', culoareGhidaje, latimeLama, marimeCutie);
+            
+            // 3. Componente lamele
+            const lamele = metriLiniari * pretLamele;
+            const lamaFinala = latimeML * getComponentPrice('lama_finala', culoareLamele, latimeLama, marimeCutie);
+            const garnituraLama = latimeML * getComponentPrice('garnitura_lama', culoareLamele, latimeLama, marimeCutie);
+            const cleme = getComponentPrice('cleme', culoareLamele, latimeLama, marimeCutie);
+            const opritori = getComponentPrice('opritori', culoareLamele, latimeLama, marimeCutie);
+            const sigurante = numarLamele * getComponentPrice('sigurante', culoareLamele, latimeLama, marimeCutie);
+            const capse = numarLamele * getComponentPrice('capse', culoareLamele, latimeLama, marimeCutie);
+            
+            // 4. Supliment RAL
+            let suplimentRal = 0;
+            if (culoareCutie === 'ral' || culoareGhidaje === 'ral' || culoareLamele === 'ral') {
+                const suprafata = (latimeFinala / 1000) * (inaltimeFinala / 1000);
+                suplimentRal = suprafata * SUPLIMENT_RAL;
+            }
+            
+            // 5. Preț special cutie
+            let pretCutieSpecial = 0;
+            if ((tipRoleta === "aplicat_tencuibil" && PRETURI_CUTII_SPECIALE.aplicat_tencuibil[culoareCutie]) ||
+                (tipRoleta === "suprapus" && PRETURI_CUTII_SPECIALE.suprapus[culoareCutie])) {
+                
+                pretCutieSpecial = (latimeFinala / 1000) * 
+                    (tipRoleta === "aplicat_tencuibil" ? 
+                     PRETURI_CUTII_SPECIALE.aplicat_tencuibil[culoareCutie] : 
+                     PRETURI_CUTII_SPECIALE.suprapus[culoareCutie]);
+            }
+            
+            // 6. Plasa rulou
+            let plasaSuprafata = 0;
+            let plasaPret = 0;
+            if (plasaRulou) {
+                plasaSuprafata = (plasaLatime / 1000) * (plasaInaltime / 1000);
+                plasaPret = plasaSuprafata < 1 ? 45 : plasaSuprafata * PRETURI_COMPONENTE.plasa_rulou.plasa;
+            }
+            
+            // Calculează totalul componentelor
+            const totalComponente = lamele + capacFata + capacSpate + ax + set + capacLateral + fulie + 
+                                  octagonRulment + rulment + inel + pilnie + tabachera + rolaStandart + 
+                                  arcStandart + surubCaseta + pn4 + ghidaj + perisorGhidaj + dopMascare + 
+                                  dop10 + lamaFinala + garnituraLama + cleme + opritori + sigurante + capse + suplimentRal;
+
+            // Adaugă marja de profit (30%)
+            const profitMargin = totalComponente * 0.3;
+            const totalCuProfit = totalComponente + profitMargin + pretCutieSpecial + plasaPret;
+            
+            // Adaugă costurile de acționare
+            const pretMotor = parseFloat(tipMotor);
+            const pretArc = actionareValue === 'arc' ? 50 : 0;
+            const pretMecanic = actionareValue === 'mecanic' ? 0 : 0;
+            
+            let pretTotal = totalCuProfit + pretMotor + pretArc + pretMecanic;
+            pretTotal = roundUpToNearest5(pretTotal);
+            
+            // Afișează rezultatele
+            document.getElementById('tipAfisare').textContent = 
+                document.getElementById('tipRoleta').options[document.getElementById('tipRoleta').selectedIndex].text;
+            
+            document.getElementById('latimeFinala').textContent = latimeFinala;
+            document.getElementById('inaltimeFinala').textContent = inaltimeFinala;
+            document.getElementById('cutieAfisare').textContent = marimeCutie;
+            document.getElementById('lamaAfisare').textContent = latimeLama + " mm";
+            document.getElementById('numarLameleValue').textContent = numarLamele;
+            
+            document.getElementById('culoareCutieAfisare').textContent = DENUMIRI_CULORI[culoareCutie];
+            document.getElementById('culoareGhidajeAfisare').textContent = DENUMIRI_CULORI[culoareGhidaje];
+            document.getElementById('culoareLameleAfisare').textContent = DENUMIRI_CULORI[culoareLamele];
+            
+            if (actionareValue === 'motor' && tipMotor !== "0") {
+                document.getElementById('actionareAfisare').textContent = 
+                    DENUMIRI_MOTOARE[tipMotor] + " (" + tipMotor + " EUR)";
+            } else if (actionareValue === 'arc') {
+                document.getElementById('actionareAfisare').textContent = "Arc (50 EUR)";
+            } else {
+                document.getElementById('actionareAfisare').textContent = "Mecanic";
+            }
+            
+            // Afișează detaliile plasa rulou dacă este cazul
+            if (plasaRulou) {
+                document.getElementById('plasaRulouAfisare').classList.remove('hidden');
+                document.getElementById('plasaDimensiuniAfisare').textContent = `${plasaLatime} x ${plasaInaltime}`;
+                document.getElementById('plasaSuprafataAfisare').textContent = plasaSuprafata.toFixed(2);
+            } else {
+                document.getElementById('plasaRulouAfisare').classList.add('hidden');
+            }
+            
+            // Afișează prețul special al cutiei dacă este cazul
+            if (pretCutieSpecial > 0) {
+                document.getElementById('specialBoxPriceContainer').classList.remove('hidden');
+                document.getElementById('specialBoxPriceDetails').innerHTML = `
+                    <div class="component-item">
+                        <span class="component-name">Cutie specială (${DENUMIRI_CULORI[culoareCutie]})</span>
+                        <span class="component-price">${pretCutieSpecial.toFixed(2)} EUR</span>
+                    </div>
+                `;
+            } else {
+                document.getElementById('specialBoxPriceContainer').classList.add('hidden');
+            }
+            
+            // Afișează detaliile componentelor
+            const componenteList = [
+                { name: "Lamele (" + numarLamele + " buc × " + latimeFinala + "mm)", price: lamele.toFixed(2) },
+                { name: "Capac față (" + latimeFinala + "mm)", price: capacFata.toFixed(2) },
+                { name: "Capac spate (" + latimeFinala + "mm)", price: capacSpate.toFixed(2) },
+                { name: "Ax (" + latimeFinala + "mm)", price: ax.toFixed(2) },
+                { name: "Set", price: set.toFixed(2) },
+                { name: "Capac lateral", price: capacLateral.toFixed(2) },
+                { name: "Fulie", price: fulie.toFixed(2) },
+                { name: "Octagon rulment", price: octagonRulment.toFixed(2) },
+                { name: "Rulment", price: rulment.toFixed(2) },
+                { name: "Inel", price: inel.toFixed(2) },
+                { name: "Pilnie", price: pilnie.toFixed(2) },
+                { name: "Tabacheră", price: tabachera.toFixed(2) },
+                { name: "Rolă standard", price: rolaStandart.toFixed(2) },
+                { name: "Arc standard", price: arcStandart.toFixed(2) },
+                { name: "Șurub casetă", price: surubCaseta.toFixed(2) },
+                { name: "PN-4", price: pn4.toFixed(2) },
+                { name: "Ghidaje (2 × " + inaltimeFinala + "mm)", price: ghidaj.toFixed(2) },
+                { name: "Perișor ghidaj (4 × " + inaltimeFinala + "mm)", price: perisorGhidaj.toFixed(2) },
+                { name: "Dop mascare", price: dopMascare.toFixed(2) },
+                { name: "Dop-10", price: dop10.toFixed(2) },
+                { name: "Lamă finală (" + latimeFinala + "mm)", price: lamaFinala.toFixed(2) },
+                { name: "Garnitură lamă finală (" + latimeFinala + "mm)", price: garnituraLama.toFixed(2) },
+                { name: "Cleme", price: cleme.toFixed(2) },
+                { name: "Opritori", price: opritori.toFixed(2) },
+                { name: "Siguranțe (" + numarLamele + " buc)", price: sigurante.toFixed(2) },
+                { name: "Capse (" + numarLamele + " buc)", price: capse.toFixed(2) }
+            ];
+            
+            // Adaugă suplimentul RAL dacă este cazul
+            if (suplimentRal > 0) {
+                const suprafata = (latimeFinala / 1000) * (inaltimeFinala / 1000);
+                componenteList.push({
+                    name: "Supliment culoare RAL (" + suprafata.toFixed(2) + " m²)",
+                    price: suplimentRal.toFixed(2)
+                });
+            }
+            
+            // Adaugă marja de profit
+            componenteList.push({
+                name: "Marjă profit (30%)",
+                price: profitMargin.toFixed(2)
+            });
+            
+            // Afișează componentele
+            const componentContainer = document.getElementById('componenteList');
+            componentContainer.innerHTML = '';
+            
+            componenteList.forEach(comp => {
+                const div = document.createElement('div');
+                div.className = 'component-item';
+                div.innerHTML = `
+                    <span class="component-name">${comp.name}</span>
+                    <span class="component-price">${comp.price} EUR</span>
+                `;
+                componentContainer.appendChild(div);
+            });
+            
+            // Adaugă totalurile
+            const totalDiv = document.createElement('div');
+            totalDiv.className = 'component-item component-total';
+            totalDiv.innerHTML = `
+                <span class="component-name">Total componente</span>
+                <span class="component-price">${totalComponente.toFixed(2)} EUR</span>
+            `;
+            componentContainer.appendChild(totalDiv);
+            
+            const profitDiv = document.createElement('div');
+            profitDiv.className = 'component-item profit-margin';
+            profitDiv.innerHTML = `
+                <span class="component-name">Marjă profit (30%)</span>
+                <span class="component-price">${profitMargin.toFixed(2)} EUR</span>
+            `;
+            componentContainer.appendChild(profitDiv);
+            
+            // Afișează prețul total
+            document.getElementById('pretTotal').textContent = pretTotal.toFixed(2);
+            
+            // Afișează secțiunea de rezultate
+            document.getElementById('rezultat').style.display = 'block';
+        }
+
+        // Initializeaza calculatorul la incarcarea paginii
+        window.onload = function() {
+            document.getElementById('marimeCutie').addEventListener('change', updateCutieAdaugata);
+            document.getElementById('adaugaCutia').addEventListener('change', updateCutieAdaugata);
+            document.getElementById('adaugaGhidaje').addEventListener('change', updateLatime);
+            document.getElementById('latimeLama').addEventListener('change', updateGhidaje);
+            document.getElementById('latime').addEventListener('input', updateLatimeLamaOptions);
+            document.getElementById('tipRoleta').addEventListener('change', updateCutiiOptions);
+            document.getElementById('plasaRulou').addEventListener('change', togglePlasaRulou);
+        };
+    </script>
+</body>
+</html>

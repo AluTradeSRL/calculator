@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!-- saved from url=(0096)file:///C:/Users/user/Desktop/LUCRU/zServer/htdocs/mywebsite/calculator%20rolete%20Alutrade.html -->
+<html lang="ro"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Rolete ALUTRADE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, #f9f9f9, #eaeaea);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6580);
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 5px solid #e67e22;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin: 50px 0;
+        }
+        
+        .btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 320px;
+            height: 380px;
+            background: linear-gradient(to bottom, #ffffff, #f5f5f5);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            text-align: center;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+        }
+        
+        .btn-windows::after {
+            background: linear-gradient(to right, #3498db, #2c80c0);
+        }
+        
+        .btn-garage::after {
+            background: linear-gradient(to right, #e67e22, #d35400);
+        }
+        
+        .btn:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.18);
+        }
+        
+        .icon {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        
+        .btn:hover .icon {
+            transform: scale(1.05);
+        }
+        
+        .btn-title {
+            font-size: 1.7rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .btn-description {
+            font-size: 1.05rem;
+            opacity: 0.85;
+            line-height: 1.5;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 25px;
+            background: linear-gradient(to right, #2c3e50, #4a6580);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 320px;
+                height: 350px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .icon {
+                height: 180px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .btn {
+                height: 320px;
+                padding: 20px 15px;
+            }
+            
+            .icon {
+                height: 160px;
+                margin-bottom: 20px;
+            }
+            
+            .btn-title {
+                font-size: 1.4rem;
+            }
+            
+            .btn-description {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Calculator Rolete ALUTRADE</h1>
+            <p class="subtitle">Alegeți tipul de rolete pentru care doriți să faceți un calcul</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="buttons-container">
+            <a href="file:///C:/Users/user/Desktop/LUCRU/zServer/htdocs/mywebsite/rolete%20usi-ferestre.html" class="btn btn-windows">
+                <div class="icon">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxINDQ0PDRAQDQ0PEA0NDw4NEBINDQ4NFBIYFhURExMYKCggGBolJxMTITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NFQ4NFSsZFR0rNysrKy0rNysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIANgA6gMBIgACEQEDEQH/xAAcAAEAAgMBAQEAAAAAAAAAAAAABAUCAwYHAQj/xABIEAABAwAFCAYFCAkDBQAAAAAAAQIDERJTkZIEFBVRUlSi0QUTISIjYTEyQZPhBgcWF3FystIzdIGCg6Gxs8ElNcIkNEJiY//EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAYEQEBAQEBAAAAAAAAAAAAAAAAARExAv/aAAwDAQACEQMRAD8A9xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1zSoxEVae3s7DYa5W0on2gas8TU64Z4mp1w6sdWAzxNTrhnianXDqx1YDPE1OuGeJqdcOrHVgM8TU64Z4mp1w6sdWAzxNTrhnianXDqx1YDPE1OuGeJqdcOrHVgM8TU64Z4mp1w6sdWAzxNTrhnianXDqx1YDPE1OuGeJqdcOrHVgM8TU64Z4mp1w6sdWAzxNTrjOLKEctCIv7UMOrPsTFR9PsoRETz9oEgAAAAAAAAidJtVYlVtalve7nrKnkntJYA4peno7aRF9qKioqDT8Vs+5Sk6f6GR0mVPoWhZHr2ald7Cr0M3Yku+IHX6fitn3KNPxWz7lOQ0M3Yku+I0M3Yku+IHX6fitn3KNPxWz7lOQ0M3Yku+I0M3Yku+IHX6fitn3KNPxWz7lOQ0M3Yku+I0M3Yku+IHX6fitn3KNPxWz7lOQ0M3Yku+I0M3Yku+IHX6fitn3KNPxWz7lOQ0M3Yku+I0M3Yku+IHX6fitn3KNPxWz7lOQ0M3Yku+I0M3Yku+IHX6fitn3KNPxWz7lOQ0M3Yku+I0M3Yku+IHX6fitn3KNPxWz7lOQ0M3Yku+I0M3Yku+IHX6fitn3KNPxWz7lOQ0M3Yku+I0M3Yku+IHX6fitn3KXfyfm66mRrnuj7URXIqNVfKn0nnmRdCItehHIiVfW7F9H2np/QkVTJcnbsxsT+QE4AAAAAAAAAAUvSOSUxSqlFZfRSlKU1kIuYya48BY9J0dRLW9Wjto7VorIVlWDZfgUDLMZNceAZjJrjwGNWDZfgUVYNl+BQMsxk1x4BmMmuPAY1YNl+BRVg2X4FAyzGTXHgGYyf/ADwGNWDZfgUVYNh+ADLMZNceAZjJrjwGNWDZfgUVYNl+BQMsxk1x4BmMmuPAY1YNl+BRVg2X4FAyzGTXHgGYya48BjVg2X4FFWDZfgUDLMZNceAZjJrjwGNWDZfgUVYNl+BQMsxk1x4BmMmuPAY1YNl+BRVg2X4FAyzGTXHgGYya48BjVg2X4FFWDZfgUCTkGRLWk6yqq9yiqlCUUKXOTtoY1NSUFV0QjKZerRUSllKKlVfQpbReqgGYAAAAAAAAAArekKepkq0VvZTSqU1vaRaJtUeF3Mk9JUdRJW7G0dqpTTRW8itog2pMMgEmibVHhdzFE2qPC7mRqINcmGQUQa5MMgEmibVHhdzFE2qPC7mRqINcmGQUQa5MMgEmibVHhdzHjao8LuZGog1yYZBRBrkwyASaJtUeF3MUTao8LuZGog1yYZBRBrkwyASaJtUeF3MUTao8LuZGog1yYXiiDXJheBJom1R4XcxRNqjwu5kaiDXJhkFEGuTDIBJom1R4XcxRNqjwu5kaiDXJhkFEGuTDIBJom1R4XcxRNqjwu5kaiDXJhkFEGuTDIBJom1R4XcxRNqjwu5kaiDXJhkFEGuTC8CxyCvWk6xGovcoqoreyhdZYxeqhVdFIymXq1cqUsprI5PYustYvVQDMAAAAAAAAAAVvSFPUyUIir7EX0KtYi0TbEf8AMk9JNTqJaVoSjtVKaUSshWeDaP4wJVE2xHxCibYj4iL4NpJxjwduTjAlUTbEfEKJtiPiIvg7cnGPB25OMCVRNsR8Qom2I+Ii+DtycY8G0fxgSqJtiPiFE2xHxEXwbR/GPB25OMCVRNsR8Qom2I+Ii+FaScY8K0k4wJVE2xHxCibYj4iL4No/jHg7cnGBKom2I+IUTbEfERfB25OMeDtycYEqibYj4hRNsR8RF8Hbk4x4O3JxgSqJtiPiFE2xHxEXwbSTjHhWknGBY9H1q0tdrWr3KKtPb2LrLKL1UKnolGr1tRyuSllNamlFoXWW0XqoBmAAAAAAAAAAK7pCnqZKERy+xF9C95CFWlso71JnSdHUS0rVT2qnsSsnaVtMdu69/IDdWlso71FaWyjvU0+FbvvePCt33vA3VpbKO9RWlso71NPhW773jwrd97wN1aWyjvUVpbKO9TT4du+9588O3fe/kBvrS2Ud6itLZR3qafDt33vHhW773gbqZbKO9RTLZR3qaKY7d97xTHbvvfyA31pbKO9RWlso71NPh2773jwrd97wN1aWyjvUVpbKO9TT4Vu+948K3fe8DdWlso71FaWyjvU0+FbvvePCt33vA3VpbKO9RTLZR3qafDt33vPlMdu+9/ICw6NV1MtdqMXuUVaaF7F1llF6qFX0TVplqvWRO52qqqqdi9naWkXqoBmAAAAAAAAAAK3pBfAkoSlezsX295OwhVn2LMRN6R/QSd6r6O8nZR3k7Sv7u8uxqBnWfYsvFZ9iy8w7u8uxqO7vLsagZ1n2LLxWfYsvMO7vLsaju7y7GoGdZ9iy8V32LMRh3d5djUUt3l2NQM6z7Fl4rPsWXmFLd5djUd3eXY1AzrvsWYhXfYsxGHd3l2NR3d5djUDOs+xZeKz7Fl5h3d5djUd3eXY1AzrPsWXis+xZeYd3eXY1Hd3l2NQM6z7Fl4rPsWXmHd3l2NR3d5djUDOs+xZeK77FmIw7u8uxqO7vLsagTejVWmWsxI17nYi009illF6qFX0XRTLRIsvqdqrTR2KWkXqoBmAAAAAAAAAAK3pD9DL2Vk7OzX3k7CDWXd+JORYZe9Gwvc5Ua1Kqq5VoRErpSqqVkvTOTMSl+VwtT0UulRqAZ1l3fiTkKy7vxJyIy/KLI9+yf37eZjD8p8jkajs7hi/9X5Qyn7fSBLrLu/EnIVl3fiTkRvpFke/5P79vMfSLI9/yf37eYEmsu78SchWXd+JORG+kWR7/AJP79vMfSLI9/wAn9+3mBJrLu/EnIVl3fiTkR/pFke/ZP79vMfSLI9/yf37eYEisu78SchWXd+JORjH0vk7kRzcric1fQqSoqL+0+6Vg3qPs9PiIB9rLu/EnIVl3fiTkR/pDke/ZP79vM+fSLI9+yf37eYEmsu78SchWXd+JORG+kWR79k/v28x9Isj3/J/ft5gSay7vxJyFZd34k5Eb6RZHv+T+/bzH0iyPf8n9+3mBJrLu/EnIVl3fiTkRHfKfI2ujRMqhlV7qtDJ2dnn6fRzJelIN6j94gEro1aVl7nVr3OymmnsUs4vQhXdGZQyVXrHI2VEqoqtdWoWhewsYvVQDMAAAAAAAAAAVPTcXWZJOzaarb3Hknzl9DJDkcTqPTM1OFT2LLP0Tv2fiQ8/+ebs6Oh/WG/hURHiWbpqGbpqJFY+VjaNGbpqGbob6wrAaM3QZub6wrAaM3QZumo31hWA9V+Q3QSS9F5K+j0pN/KV6f4LGP5PJWn7PQ5fwoWvzYdvQuRfx/wC88uI072Vfe/4IZafmV2TpSv2r/U+Zv5Eh7u1ftX+p8rGmWjN/IZv5G+sKwGjN01DN/I31hWA29CZKjssyRu1PAl70PamfJ1K69n/iv4kPIPk6v/X5D+s5N/cQ/R0ad/8AcX8SGasRPkpkGbtnb6KzmO4VOgi9VCJkvrP/AHP8kuL1UIrMAAAAAAAAAAQcs/RO+1PxIee/PV/tsP6wz8KnoeWfonfan4kPPPnu/wBth/WGfhUTqV4rWFY1Uik6I21hWNVIpCNlYVjXSKQNlYVjXSAP0N81v+yZF/H/ALzy4Z62Vfe/4IU/zVJ/oeRfx/7zy5b62VfeX8CGG35le7td9rv6nysYvatZ3Yvpd7F1nyhdS3KbZZ1hWMKq6luUVV1LcoGdY+VjGqupblFVdS3KBZ/Jt3+oZD+tZN/cafpSL1/3F/qh+avky1dIZB2L/wB1k3sW0Q/S8P6T9xf6oY9LEjJ/Wf8Auf5JUXqoRoOxz/3P8kmL1UIrMAAAAAAAAAAQsrTw3eap+JDlfnI+Tc3SuRxwZMsaPbK2RVlcrW1URfaiLrOmlkppavop/oplnHkB4f8AVD0ht5L71/5R9UPSG3kvvX/lPcM48j5nHkXamPEPqh6Q28l96/8AKPqh6Q28l96/8p7hnHkM48htMeH/AFQ9IbeS+9f+UfVD0ht5L71/5T3DOPIZx5DaY8P+qHpDbyX3r/yj6oekNvJfev8AynuGceQzjyG0xT/IjoeTo/o3JslnViyx9ZWWNVczvSOclCrRrLGPJXI+Zy0UPfWT7KqJ/g35x5BMo8iK15p5NuGa/dNmceR8znyAwzX7ozT7pnnPkM48gMM0+6M0+6Z5x5DOPIDFMl+6ZRwqjqVooqqnZrpRf8DOPIZx5AbY07z6dTfT+0kRehCCk1CqqdlNH8ibAtLWr5AbAAAAAAAAAABAf0eqqq9YqUrT6rT5o5bVcLSwAFfo5bVcLRo5bVcLSwAFfo5bVcLRo5bRcLSwAFfo5bRcLRo5bRcLSwAFfo5bRcLRo5bRcLSwAFfo5bRcLRo5bRcLSwAFfo5bRcLRo5bRcLSwAFfo5bRcLRo5bRcLSwAFfo5bRcLRo5bRcLSwAFfo5bRcLRo5bRcLSwAFfo5bRcLSbEyq1EppoSin0UmYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/2Q==" alt="Rolă pentru ferestre">
+                </div>
+                <div class="btn-title">Rolete Ferestre/Uși</div>
+                <div class="btn-description">Calculați prețul pentru roletele de ferestre și uși</div>
+            </a>
+            
+            <a href="file:///C:/Users/user/Desktop/LUCRU/zServer/htdocs/mywebsite/usi-garaj.html" class="btn btn-garage">
+                <div class="icon">
+                    <img src="./calculator rolete Alutrade_files/images" alt="Ușă de garaj">
+                </div>
+                <div class="btn-title">Uși de Garaj</div>
+                <div class="btn-description">Calculați prețul pentru ușile de garaj</div>
+            </a>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 ALUTRADE - Toate drepturile rezervate</p>
+        </div>
+    </footer>
+
+</body></html>
